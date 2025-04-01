@@ -16,7 +16,7 @@ We released the first version RepoGraph and its integration with [SWE-bench](htt
 
 `agentless` and `SWE-agent` incorporates the integrated version of RepoGraph with the two methods.
 
-Currently this version may take a little long time to run for a repo. We provide a cached version for all repos in SWE-bench, download it [here](https://drive.google.com/file/d/1-0d-OgGoOf3i54bWcf8H0egjQyTSZ8dG/view?usp=sharing) and put it under `repo_structures`.
+Currently this version may take a little long time to run for a repo. We provide a cached version for all repos in SWE-bench, download it from [huggingface datasets](https://huggingface.co/datasets/MrZilinXiao/RepoGraph) or [Google Drive](https://drive.google.com/file/d/1-0d-OgGoOf3i54bWcf8H0egjQyTSZ8dG/view?usp=sharing) and put it under `repo_structures`.
 
 ### How to run?
 
