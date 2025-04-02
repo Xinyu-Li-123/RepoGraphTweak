@@ -85,16 +85,37 @@ class CodeGraph:
     def tag_to_graph(self, tags: list[Tag]):
         
         G = nx.MultiDiGraph()
+
+        # Add def / ref node of functions (not methods) and classes
         for tag in tags:
-            G.add_node(tag.name, category=tag.category, info=tag.info, fname=tag.fname, line=tag.line, kind=tag.kind)
+            tag_id = tag.name
+            G.add_node(
+                # tag.name, 
+                tag_id,
+                category=tag.category, 
+                info=tag.info, 
+                fname=tag.fname, 
+                line=tag.line, 
+                kind=tag.kind
+            )
 
-
+        # Add def node for class methods (ignore subclass)
         for tag in tags:
             if tag.category == 'class':
-                class_funcs = tag.info.split('\t')
+                class_funcs = tag.info.split('\n')
+                for f in class_funcs:
+                    tag_id = "{}".format(f.strip())
+                    G.add_edge(tag.name, f.strip())
+
+
+        # Add 'contains' edges from class to its methods
+        for tag in tags:
+            if tag.category == 'class':
+                class_funcs = tag.info.split('\n')
                 for f in class_funcs:
                     G.add_edge(tag.name, f.strip())
 
+        # For each function / class / method, add 'contains' edges from its definition to its references
         tags_ref = [tag for tag in tags if tag.kind == 'ref']
         tags_def = [tag for tag in tags if tag.kind == 'def']
         for tag in tags_ref:
@@ -308,6 +329,7 @@ class CodeGraph:
             saw.add(kind)
             cur_cdl = codelines[node.start_point[0]]
             category = 'class' if 'class ' in cur_cdl else 'function'
+            # category = 'class' if cur_cdl.strip().startswith('class') else 'function'
             tag_name = node.text.decode("utf-8")
             
             #  we only want to consider project-dependent functions
