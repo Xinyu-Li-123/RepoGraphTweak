@@ -11,8 +11,6 @@ def create_structure(directory_path):
     for root, _, files in os.walk(directory_path):
         repo_name = os.path.basename(directory_path)
         relative_root = os.path.relpath(root, directory_path)
-        if relative_root == ".":
-            relative_root = repo_name
         curr_struct = structure
         for part in relative_root.split(os.sep):
             if part not in curr_struct:
@@ -29,6 +27,10 @@ def create_structure(directory_path):
                 }
             else:
                 curr_struct[file_name] = {}
+
+    files_at_root = structure['.']
+    structure.pop('.')
+    structure.update(files_at_root)
 
     return structure
 
