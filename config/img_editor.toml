@@ -1,0 +1,5 @@
+[repository]
+path = "./playground/img_editor"  # Path to the repo directory
+
+[output]
+folder = "./output/img_editor"

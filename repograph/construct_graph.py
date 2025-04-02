@@ -23,7 +23,7 @@ import ast
 import pickle
 import json
 from copy import deepcopy
-from utils import create_structure
+from repograph.utils import create_structure
 
 # tree_sitter is throwing a FutureWarning
 warnings.simplefilter("ignore", category=FutureWarning)
