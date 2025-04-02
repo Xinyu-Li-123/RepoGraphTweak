@@ -91,7 +91,7 @@ class CodeGraph:
 
         for tag in tags:
             if tag.category == 'class':
-                class_funcs = tag.info.split('\t')
+                class_funcs = tag.info.split('\n')
                 for f in class_funcs:
                     G.add_edge(tag.name, f.strip())
 
