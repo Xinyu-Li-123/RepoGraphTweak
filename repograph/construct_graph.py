@@ -68,16 +68,6 @@ class CodeGraph:
         if not mentioned_fnames:
             mentioned_fnames = set()
 
-        max_map_tokens = self.max_map_tokens
-
-        # With no files in the chat, give a bigger view of the entire repo
-        MUL = 16
-        padding = 4096
-        if max_map_tokens and self.max_context_window:
-            target = min(max_map_tokens * MUL, self.max_context_window - padding)
-        else:
-            target = 0
-
         tags = self.get_tag_files(other_files, mentioned_fnames)
         code_graph = self.tag_to_graph(tags)
 
@@ -92,24 +82,25 @@ class CodeGraph:
             self.max_map_tokens = 0
             return
 
-    def tag_to_graph(self, tags):
+    def tag_to_graph(self, tags: list[Tag]):
         
         G = nx.MultiDiGraph()
         for tag in tags:
-            G.add_node(tag['name'], category=tag['category'], info=tag['info'], fname=tag['fname'], line=tag['line'], kind=tag['kind'])
+            G.add_node(tag.name, category=tag.category, info=tag.info, fname=tag.fname, line=tag.line, kind=tag.kind)
+
 
         for tag in tags:
-            if tag['category'] == 'class':
-                class_funcs = tag['info'].split('\t')
+            if tag.category == 'class':
+                class_funcs = tag.info.split('\t')
                 for f in class_funcs:
-                    G.add_edge(tag['name'], f.strip())
+                    G.add_edge(tag.name, f.strip())
 
-        tags_ref = [tag for tag in tags if tag['kind'] == 'ref']
-        tags_def = [tag for tag in tags if tag['kind'] == 'def']
+        tags_ref = [tag for tag in tags if tag.kind == 'ref']
+        tags_def = [tag for tag in tags if tag.kind == 'def']
         for tag in tags_ref:
             for tag_def in tags_def:
-                if tag['name'] == tag_def['name']:
-                    G.add_edge(tag['name'], tag_def['name'])
+                if tag.name == tag_def.name:
+                    G.add_edge(tag.name, tag_def.name)
         return G
 
     def get_rel_fname(self, fname):
@@ -543,6 +534,7 @@ class CodeGraph:
         
         chat_fnames_new = []
         for item in chat_fnames:
+            # TODO: Will finding only python file be a problem when working with config files in json / yaml / toml etc?
             # filter out non-python files
             if not item.endswith('.py'):
                 continue
