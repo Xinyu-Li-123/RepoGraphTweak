@@ -1,5 +1,13 @@
 import os
 import ast
+import toml
+
+def load_config(config_path):
+    """Load the configuration file from the given path.
+    :param config_path: Path to the configuration file.
+    :return: The configuration dictionary.
+    """
+    return toml.load(config_path)
 
 def create_structure(directory_path):
     """Create the structure of the repository directory by parsing Python files.
@@ -61,6 +69,7 @@ def parse_python_file(file_path, file_content=None):
     for node in ast.walk(parsed_data):
         if isinstance(node, ast.ClassDef):
             methods = []
+            subclasses = []
             for n in node.body:
                 if isinstance(n, ast.FunctionDef):
                     methods.append(
@@ -74,6 +83,7 @@ def parse_python_file(file_path, file_content=None):
                         }
                     )
                     class_methods.add(n.name)
+                
             class_info.append(
                 {
                     "name": node.name,
