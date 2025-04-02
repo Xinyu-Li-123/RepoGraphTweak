@@ -133,3 +133,9 @@ dmypy.json
 .pyre/
 *.xml
 *.gif
+
+playground/
+.vscode/
+
+graph*.pkl
+tags*.json
