@@ -4,20 +4,6 @@ import pickle
 import sys
 import os
 
-# # Create a simple graph
-# input_path = sys.argv[1]
-# with open(input_path, "rb") as file:
-#     G: nx.MultiDiGraph  = pickle.load(file)
-# # breakpoint()
-# # Draw it
-
-# # remove node with no connection
-# G.remove_nodes_from(list(nx.isolates(G)))
-
-# nx.draw(G, with_labels=True, node_color='lightblue', edge_color='gray', node_size=2000, font_size=15)
-
-# plt.show()
-
 class RepoGraphVisualizer:
     """
     Wrapper class to visualize a RepoGraph.

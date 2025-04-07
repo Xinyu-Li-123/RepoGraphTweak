@@ -101,7 +101,6 @@ class RepoGraphConstructor:
 
         with open(self.tags_path, 'w') as f:
             # dump the entire list of tags as a single json
-            breakpoint()
             json.dump([tag._asdict() for tag in self.tags], f, indent=4)
             # json.dump(self.tags, f, indent=4)
         print(f"🏅 Successfully saved tags to {self.tags_path}")
