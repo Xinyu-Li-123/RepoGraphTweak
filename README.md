@@ -2,6 +2,8 @@ This repo attempts to fix several bugs in RepoGraph, and add some extensions to 
 
 ## Todo List
 
+- [ ] Search for module name, e.g. `argparse`
+
 - [ ] Try using fully-qualified name for function / class
 
 - [ ] Distinguish between function and method
@@ -49,6 +51,8 @@ This repo attempts to fix several bugs in RepoGraph, and add some extensions to 
 - [ ] If two files contains two classes of the same name, I don't know what will happen but I'm sure the two classes can't be correctly separated
 
 ## Extensions
+
+- [ ] Search for module name, e.g. `argparse`
 
 - [ ] The search term must be an exact match. I'm not sure if that is good or not. For example, we may be interested in 
 
