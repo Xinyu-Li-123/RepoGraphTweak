@@ -10,11 +10,11 @@ This repo attempts to fix several bugs in RepoGraph, and add some extensions to 
 
 - [ ] Def and Ref nodes are mixed into one node in the graph
 
-- [v] Class methods are not separated, instead they are concatenated into one line with '\n'
+- [x] Class methods are not separated, instead they are concatenated into one line with '\n'
 
-- [v] Files under root level is not correctly identified in `CodeGraph.structure` when creating list of tags
+- [x] Files under root level is not correctly identified in `CodeGraph.structure` when creating list of tags
 
-- [v] Reference to fields in `Tag` uses string key slicing instead of dot notation, however `Tag` is named tuple instead of dict
+- [x] Reference to fields in `Tag` uses string key slicing instead of dot notation, however `Tag` is named tuple instead of dict
 
 - [ ] RepoGraph doesn't include the fully-qualified path to function / classes. For example
 
