@@ -1,4 +1,62 @@
-# RepoGraph: Enhancing AI Software Engineering with Repository-level Code Graph
+This repo attempts to fix several bugs in RepoGraph, and add some extensions to it. The original README file is included in the end of this document for reference.
+
+## Todo List
+
+- [ ] Try using fully-qualified name for function / class
+
+- [ ] Distinguish between function and method
+
+## Bugs
+
+- [ ] Def and Ref nodes are mixed into one node in the graph
+
+- [v] Class methods are not separated, instead they are concatenated into one line with '\n'
+
+- [v] Files under root level is not correctly identified in `CodeGraph.structure` when creating list of tags
+
+- [v] Reference to fields in `Tag` uses string key slicing instead of dot notation, however `Tag` is named tuple instead of dict
+
+- [ ] RepoGraph doesn't include the fully-qualified path to function / classes. For example
+
+    ```python
+    def myfunc():
+        pass 
+
+    class myclass:
+        def __init__(self):
+            pass 
+        
+        def myfunc(self):
+            pass
+    ```
+
+    There will only be one `myfunc` in the RepoGraph
+
+    As a result, RepoGraph can't work with apis of different classes with duplicate name
+
+- [ ] Doesn't distinguish between function and methods
+
+- [ ] The builtin apis are excluded using a hardcoded list of api names. If someone overwrite the builtin api, won't work
+
+- [ ] For class defined within another class, no contain edge will be created. In general, subclass will not be distinguished from class
+
+    Example: `ImageProcessor` and `ImageLoader`
+
+- [ ] Two classes with apis of same name would be treated as the same node in the graph
+
+    Example `ImageProcessor.open()` and `ImageProcessor.ImageLoader.open()`
+
+- [ ] If two files contains two classes of the same name, I don't know what will happen but I'm sure the two classes can't be correctly separated
+
+## Extensions
+
+- [ ] The search term must be an exact match. I'm not sure if that is good or not. For example, we may be interested in 
+
+  - searching for the context of all methods of a class
+
+  - a fuzzy search for a method name
+
+# (Orignal README) RepoGraph: Enhancing AI Software Engineering with Repository-level Code Graph
 
 ## 📜 Overview
 
