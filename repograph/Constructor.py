@@ -63,11 +63,24 @@ class RepoGraphConstructor:
         """
         return toml.load(config_path)
 
-    def construct(self):
+    def _is_cache_hit(self) -> bool:
+        """
+        Check if the graph and tags already exist in the cache.
+        TODO: Check based on target repo diff, so that even if the graph and 
+        tags exist, we can still update them.
+        """
+        return os.path.exists(self.graph_path) and os.path.exists(self.tags_path)
+
+    def construct(self, use_cache=False):
         print("🚧 Constructing the code graph...")
         code_graph = CodeGraph(root=self.repo_path)
         chat_fnames_new = code_graph.find_files([self.repo_path])
-        self.tags, self.G = code_graph.get_code_graph(chat_fnames_new)
+        if use_cache and self._is_cache_hit():
+            print("Code graph already exists in cache, skip construction.")
+            return
+        else:
+            print("Constructing code graph from scratch...")
+            self.tags, self.G = code_graph.get_code_graph(chat_fnames_new)
 
         print("---------------------------------")
         print(f"🏅 Successfully constructed the code graph for repo directory {self.repo_path}")
@@ -75,25 +88,22 @@ class RepoGraphConstructor:
         print(f"   Number of edges: {len(self.G.edges)}")
         print("---------------------------------")
 
-    def save(self):
+    def save(self, use_cache=False):
         print("💾 Saving graph and tags...")
+
+        if use_cache and self._is_cache_hit():
+            print("Code graph and tags already exist in cache. Skipping save.")
+            return
 
         with open(self.graph_path, 'wb') as f:
             pickle.dump(self.G, f)
         print(f"🏅 Successfully saved graph to {self.graph_path}")
 
         with open(self.tags_path, 'w') as f:
-            for tag in self.tags:
-                line = json.dumps({
-                    "fname": tag.fname,
-                    "rel_fname": tag.rel_fname,
-                    "line": tag.line,
-                    "name": tag.name,
-                    "kind": tag.kind,
-                    "category": tag.category,
-                    "info": tag.info,
-                })
-                f.write(line + "\n")
+            # dump the entire list of tags as a single json
+            breakpoint()
+            json.dump([tag._asdict() for tag in self.tags], f, indent=4)
+            # json.dump(self.tags, f, indent=4)
         print(f"🏅 Successfully saved tags to {self.tags_path}")
 
 if __name__ == "__main__":

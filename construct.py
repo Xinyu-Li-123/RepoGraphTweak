@@ -9,8 +9,8 @@ def main():
 
     config = load_config(args.config) 
     constructor = RepoGraphConstructor(config)
-    constructor.construct()
-    constructor.save()
+    constructor.construct(use_cache=True)
+    constructor.save(use_cache=True)
 
 if __name__ == "__main__":
     main()

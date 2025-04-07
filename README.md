@@ -56,6 +56,10 @@ This repo attempts to fix several bugs in RepoGraph, and add some extensions to 
 
   - a fuzzy search for a method name
 
+## Integration
+
+- [ ] Use state command to update repograph after each action
+
 # (Orignal README) RepoGraph: Enhancing AI Software Engineering with Repository-level Code Graph
 
 ## 📜 Overview
