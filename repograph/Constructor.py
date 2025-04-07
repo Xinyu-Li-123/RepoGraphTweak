@@ -3,7 +3,41 @@ import json
 import pickle
 import toml
 import networkx as nx
-from repograph.construct_graph import CodeGraph  # Ensure this is the correct import
+from repograph.construct_graph import CodeGraph, Tag # Ensure this is the correct import
+
+def load_tags_from_path(tags_path: str) -> list[Tag]:
+    """
+    Load tags from a JSON file.
+    """
+    with open(tags_path, 'r') as f:
+        tags_raw = json.load(f)
+    tags = []
+    for tag in tags_raw:
+        tags.append(Tag(
+            fname=tag["fname"],
+            rel_fname=tag["rel_fname"],
+            line=tag["line"],
+            name=tag["name"],
+            kind=tag["kind"],
+            category=tag["category"],
+            info=tag["info"]
+        ))
+    return tags
+
+def load_graph_from_path(graph_path: str) -> nx.MultiDiGraph:
+    """
+    Load a graph from a pickle file.
+    """
+    with open(graph_path, 'rb') as f:
+        graph = pickle.load(f)
+    return graph
+
+def convert_tag_to_graph(tags: list[Tag]) -> tuple:
+    """
+    Convert a tag dictionary to a tuple suitable for adding to the graph.
+    """
+    graph = CodeGraph.tag_to_graph(None, tags)
+    return graph
 
 class RepoGraphConstructor:
     """
