@@ -278,18 +278,20 @@ class CodeGraph:
             tree_ast = None
 
         # functions from third-party libs or default libs
-        try:
-            std_funcs, std_libs = self.std_proj_funcs(code, fname)
-        except:
-            std_funcs, std_libs = [], []
+        std_funcs, std_libs = [], []
+        # try:
+        #     std_funcs, std_libs = self.std_proj_funcs(code, fname)
+        # except:
+        #     std_funcs, std_libs = [], []
         
         # functions from builtins
-        builtins_funs = [name for name in dir(builtins)]
-        builtins_funs += dir(list)
-        builtins_funs += dir(dict)
-        builtins_funs += dir(set)  
-        builtins_funs += dir(str)
-        builtins_funs += dir(tuple)
+        builtins_funs = []
+        # builtins_funs = [name for name in dir(builtins)]
+        # builtins_funs += dir(list)
+        # builtins_funs += dir(dict)
+        # builtins_funs += dir(set)  
+        # builtins_funs += dir(str)
+        # builtins_funs += dir(tuple)
 
         # Run the tags queries
         query = language.query(query_scm)
