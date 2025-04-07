@@ -1,7 +1,7 @@
 import networkx as nx
 import os
 
-from repograph.Constructor import load_graph_from_path
+from repograph.Constructor import load_graph_from_path, load_tags_from_path
 
 def one_hop_neighbors(graph: nx.MultiDiGraph, query) -> list | None:
     """ 
@@ -67,8 +67,9 @@ class RepoGraphSearcher:
         self.repo_path = config["repository"]["path"]
         self.output_folder = config["output"]["folder"]
         self.graph_path = os.path.join(self.output_folder, "graph.pkl")
-
+        self.tags_path = os.path.join(self.output_folder, "tags.json")
         self.graph = load_graph_from_path(self.graph_path)
+        self.tags = load_tags_from_path(self.tags_path)
     
     def one_hop_neighbors(self, query: str) -> list:
         return one_hop_neighbors(self.graph, query)
