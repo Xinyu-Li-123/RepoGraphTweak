@@ -15,7 +15,7 @@ def main():
     user_input = input(user_input_prompt)
     while user_input.lower() != "exit":
         # Perform the search
-        one_hop = searcher.one_hop_neighbors(user_input)
+        one_hop = searcher.search_repo(user_input)
 
         # Print the results
         print(f"One-hop neighbors of {user_input}:")
