@@ -3,7 +3,7 @@ import os
 
 from repograph.Constructor import load_graph_from_path, load_tags_from_path
 
-def one_hop_neighbors(graph: nx.MultiDiGraph, query) -> list | None:
+def one_hop_neighbors(graph: nx.MultiDiGraph, query) -> list:
     """ 
     Get one-hop neighbors from networkx graph.
 
@@ -19,7 +19,7 @@ def one_hop_neighbors(graph: nx.MultiDiGraph, query) -> list | None:
         return list(graph.neighbors(query))
     except nx.NetworkXError:
         # if the node is not in the graph, return an empty list
-        return None
+        return []
 
 def two_hop_neighbors(graph: nx.MultiDiGraph, query) -> list:
     # get two-hop neighbors from networkx graph
@@ -102,7 +102,7 @@ class RepoGraphSearcher:
                 self.config["search"]["type"]
             )
 
-    def search_repo(self, query: str) -> list[dict]:
+    def search_repo(self, query: str) -> list[str] | list[dict]:
         """
         Searches the repograph for the usage of a specific function, class, or module by exact name,
         and returns detailed information about neighboring nodes in the graph.
@@ -196,7 +196,6 @@ class RepoGraphSearcher:
         """
         # Note that there won't be any duplicates in the result
         neighbor_ids = self._search_neighbor_on_graph(query)
-
         # obtain detailed information of the neighbors
         neighbors = []
         for neighbor_id in neighbor_ids:
@@ -216,12 +215,13 @@ class RepoGraphSearcher:
             raise ValueError(f"Unsupported search type: {self.search_type}")
         return neighbor_ids
 
-    def _id2detail(self, node_id: str) -> dict:
+    def _id2detail(self, node_id: str, show_source_code: bool = False) -> dict:
         """
         Get the details of a node in the graph.
 
         Args:
             node_id (str): The node id to get details for.
+            show_source_code (bool): Whether or not to show the source code of the id
         
         Returns:
             dict: A dictionary containing the details of the node. The keys are

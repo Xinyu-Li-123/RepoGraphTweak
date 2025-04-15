@@ -11,9 +11,9 @@ def main():
     config = load_config(args.config) 
     searcher = RepoGraphSearcher(config)
 
-    user_input_prompt = "Enter a search query (node name) or 'exit' to quit: "
+    user_input_prompt = "Enter a search query (node name) or 'q' to quit: "
     user_input = input(user_input_prompt)
-    while user_input.lower() != "exit":
+    while user_input.lower() != "q":
         # Perform the search
         one_hop = searcher.search_repo(user_input)
 

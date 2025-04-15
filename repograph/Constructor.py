@@ -10,18 +10,7 @@ def load_tags_from_path(tags_path: str) -> list[Tag]:
     Load tags from a JSON file.
     """
     with open(tags_path, 'r') as f:
-        tags_raw = json.load(f)
-    tags = []
-    for tag in tags_raw:
-        tags.append(Tag(
-            fname=tag["fname"],
-            rel_fname=tag["rel_fname"],
-            line=tag["line"],
-            name=tag["name"],
-            kind=tag["kind"],
-            category=tag["category"],
-            info=tag["info"]
-        ))
+        tags = json.load(f)
     return tags
 
 def load_graph_from_path(graph_path: str) -> nx.MultiDiGraph:

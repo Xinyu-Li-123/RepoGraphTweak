@@ -6,6 +6,28 @@ This repo attempts to fix several bugs in RepoGraph, and add some extensions to 
 
 - [ ] Try using fully-qualified name for function / class
 
+    We want to use a unified, unique identifier to accurately identify a function / class / module in the repo. This identifier is a combination of relative path to repo root, and fully-qualified name (FQN)
+
+    - For function, this is "<prefix>::<module>.<function>"
+
+    - For class, this is "<prefix>::<module>[.<class>].<class>"
+
+    - For class method, this is "<prefix>::<module>[.<class>].<method>"
+
+    - For module, this is "<prefix>::<module>"
+
+    The exact value of `<prefix>` depends on the location of the file:
+
+    - For item in local file (file in the repo), `<prefix>` is `./[folder/]<file>.py`. For example, a function `foo()` in `a/b/c.py` will be represented as `./a/b/c.py::c.foo`
+
+    - For item in builtin or third-party library, `<prefix>` is `\<external\>`. For example, the class `ArgumentParser` in `argparse` will be represented as `<external>::argparse.ArgumentParser`
+
+    Note: 
+    
+    - Every Python file is technically a module, but not all modules are importable—especially if their parent folders lack `__init__.py`. To ensure consistent identification even for non-importable modules, we prefix the FQN with the relative folder path to project root (e.g., For `func` in `$PROJECT_ROOT/a/b/c.py`, we use `./a/b: c.func`), preserving structure even when import resolution fails.
+
+    - We ignore submodules because we can't guarantee the existence of `__init__.py` files in the submodules. For example, to represent module `c` defined by `a/b/c.py`, we use `./a/b: c` instead of `./a: b.c`, even if there exists `__init__.py` in `a/b`.
+
 - [ ] Distinguish between function and method
 
 ## Bugs

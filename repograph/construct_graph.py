@@ -29,7 +29,16 @@ from repograph.utils import create_structure
 warnings.simplefilter("ignore", category=FutureWarning)
 from tree_sitter_languages import get_language, get_parser
 
-Tag = namedtuple("Tag", "rel_fname fname line name kind category info".split())
+# Tag = namedtuple("Tag", "rel_fname fname line name kind category info".split())
+Tag = namedtuple("Tag", [
+    "rel_fname",
+    "fname",
+    "line",
+    "name",
+    "kind",
+    "category",
+    "info",
+])
 
 
 class CodeGraph:
